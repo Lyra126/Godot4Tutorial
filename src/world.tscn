@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://f11vtaafbcro"]
+[gd_scene load_steps=12 format=3 uid="uid://f11vtaafbcro"]
 
 [ext_resource type="Texture2D" uid="uid://cuv5467mauibr" path="res://assets/TilesetFloor.png" id="1_a3srv"]
 [ext_resource type="PackedScene" uid="uid://vi1e6ko3fkwq" path="res://src/player.tscn" id="1_ymg5l"]
 [ext_resource type="Texture2D" uid="uid://bhfyq3s84bk53" path="res://assets/TilesetNature.png" id="2_6g658"]
 [ext_resource type="Texture2D" uid="uid://bmy5bdae2m5f0" path="res://assets/flowerAnimated.png" id="3_enjwx"]
+[ext_resource type="PackedScene" uid="uid://csoo2jaoai7hs" path="res://src/enemy.tscn" id="4_6h0gc"]
 [ext_resource type="Script" path="res://src/followCam.gd" id="5_lxlbi"]
+[ext_resource type="Script" path="res://src/enemy.gd" id="5_q3ti7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_em7eg"]
 texture = ExtResource("1_a3srv")
@@ -2876,12 +2878,20 @@ layer_4/y_sort_enabled = true
 layer_4/z_index = 1
 layer_4/tile_data = PackedInt32Array(720918, 65537, 10, 655382, 65537, 10, 589846, 65537, 10, 524310, 65537, 10, 720896, 65537, 10, 655360, 65537, 10, 458752, 65537, 10, 393216, 65537, 10, 327680, 65537, 10, 262144, 65537, 10, 196608, 65537, 10, 131072, 65537, 10, 65536, 65537, 10, 0, 65537, 10, 1, 65537, 10, 2, 65537, 10, 3, 65537, 10, 4, 65537, 10, 5, 65537, 10, 6, 65537, 10, 7, 65537, 10, 8, 65537, 10, 9, 65537, 10, 10, 65537, 10, 11, 65537, 10, 12, 65537, 10, 13, 65537, 10, 14, 65537, 10, 15, 65537, 10, 16, 65537, 10, 17, 65537, 10, 18, 65537, 10, 19, 65537, 10, 20, 65537, 10, 21, 65537, 10, 22, 65537, 10, 23, 65537, 10, 24, 65537, 10, 25, 65537, 10, 26, 65537, 10, 27, 65537, 10, 28, 65537, 10, 29, 65537, 10, 65565, 65537, 10, 393245, 65537, 10, 458781, 65537, 10, 524317, 65537, 10, 589853, 65537, 10, 655389, 65537, 10, 720925, 65537, 10, 786461, 65537, 10, 851997, 65537, 10, 917533, 65537, 10, 983069, 65537, 10, 1048605, 65537, 10, 1114141, 65537, 10, 1114140, 65537, 10, 1114139, 65537, 10, 1114138, 65537, 10, 1114137, 65537, 10, 1114136, 65537, 10, 1114135, 65537, 10, 1114134, 65537, 10, 1114133, 65537, 10, 1114132, 65537, 10, 1114131, 65537, 10, 1114130, 65537, 10, 1114129, 65537, 10, 1114128, 65537, 10, 1114127, 65537, 10, 1114126, 65537, 10, 1048590, 65537, 10, 983054, 65537, 10, 1114125, 65537, 10, 1114124, 65537, 10, 1114123, 65537, 10, 1114122, 65537, 10, 1114121, 65537, 10, 1114120, 65537, 10, 1114119, 65537, 10, 1114118, 65537, 10, 1114117, 65537, 10, 1114116, 65537, 10, 1114115, 65537, 10, 1114114, 65537, 10, 1114113, 65537, 10, 1114112, 65537, 10, 1048576, 65537, 10, 983040, 65537, 10, 917504, 65537, 10, 851968, 65537, 10, 786432, 65537, 10, 65552, 65537, 10, 131088, 65537, 10, 524288, 65537, 10, 589824, 65537, 10)
 
-[node name="Player" parent="." instance=ExtResource("1_ymg5l")]
+[node name="Enemy" parent="TileMap" node_paths=PackedStringArray("endPoint") instance=ExtResource("4_6h0gc")]
+position = Vector2(107, 123)
+script = ExtResource("5_q3ti7")
+endPoint = NodePath("Marker2D")
+
+[node name="Marker2D" type="Marker2D" parent="TileMap/Enemy"]
+position = Vector2(57, -19)
+
+[node name="Player" parent="TileMap" instance=ExtResource("1_ymg5l")]
 z_index = 1
 y_sort_enabled = true
 position = Vector2(115, 64)
 
-[node name="followCam" type="Camera2D" parent="Player" node_paths=PackedStringArray("tilemap")]
+[node name="followCam" type="Camera2D" parent="TileMap/Player" node_paths=PackedStringArray("tilemap")]
 limit_left = 0
 limit_top = 0
 limit_right = 480
@@ -2889,4 +2899,4 @@ limit_bottom = 288
 limit_smoothed = true
 position_smoothing_enabled = true
 script = ExtResource("5_lxlbi")
-tilemap = NodePath("../../TileMap")
+tilemap = NodePath("../..")
