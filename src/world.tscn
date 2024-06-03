@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://f11vtaafbcro"]
+[gd_scene load_steps=13 format=3 uid="uid://f11vtaafbcro"]
 
 [ext_resource type="Texture2D" uid="uid://cuv5467mauibr" path="res://assets/TilesetFloor.png" id="1_a3srv"]
 [ext_resource type="PackedScene" uid="uid://vi1e6ko3fkwq" path="res://src/player.tscn" id="1_ymg5l"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://csoo2jaoai7hs" path="res://src/enemy.tscn" id="4_6h0gc"]
 [ext_resource type="Script" path="res://src/followCam.gd" id="5_lxlbi"]
 [ext_resource type="Script" path="res://src/enemy.gd" id="5_q3ti7"]
+[ext_resource type="PackedScene" uid="uid://dufmg8fv4cwq1" path="res://src/hearts_container.tscn" id="8_u6gto"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_em7eg"]
 texture = ExtResource("1_a3srv")
@@ -2843,7 +2844,8 @@ texture = ExtResource("3_enjwx")
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -1.5625, -5.3125, -4.6875, 4.875, -5, 8, -1.75, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_pdy0j"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 3
+physics_layer_0/collision_mask = 3
 terrain_set_0/mode = 1
 terrain_set_0/terrain_0/name = "sand"
 terrain_set_0/terrain_0/color = Color(0.500249, 0.230842, 0.67822, 1)
@@ -2900,3 +2902,13 @@ limit_smoothed = true
 position_smoothing_enabled = true
 script = ExtResource("5_lxlbi")
 tilemap = NodePath("../..")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HeartsContainer" parent="CanvasLayer" instance=ExtResource("8_u6gto")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -51.0
+offset_right = 0.0
+grow_horizontal = 0
