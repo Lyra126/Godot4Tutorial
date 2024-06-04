@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://f11vtaafbcro"]
+[gd_scene load_steps=14 format=3 uid="uid://f11vtaafbcro"]
 
 [ext_resource type="Texture2D" uid="uid://cuv5467mauibr" path="res://assets/TilesetFloor.png" id="1_a3srv"]
+[ext_resource type="Script" path="res://src/world.gd" id="1_qocej"]
 [ext_resource type="PackedScene" uid="uid://vi1e6ko3fkwq" path="res://src/player.tscn" id="1_ymg5l"]
 [ext_resource type="Texture2D" uid="uid://bhfyq3s84bk53" path="res://assets/TilesetNature.png" id="2_6g658"]
 [ext_resource type="Texture2D" uid="uid://bmy5bdae2m5f0" path="res://assets/flowerAnimated.png" id="3_enjwx"]
@@ -2859,6 +2860,7 @@ sources/2 = SubResource("TileSetAtlasSource_k7vw2")
 
 [node name="World" type="Node2D"]
 y_sort_enabled = true
+script = ExtResource("1_qocej")
 
 [node name="TileMap" type="TileMap" parent="."]
 y_sort_enabled = true
@@ -2900,15 +2902,10 @@ limit_right = 480
 limit_bottom = 288
 limit_smoothed = true
 position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 script = ExtResource("5_lxlbi")
 tilemap = NodePath("../..")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HeartsContainer" parent="CanvasLayer" instance=ExtResource("8_u6gto")]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -51.0
-offset_right = 0.0
-grow_horizontal = 0

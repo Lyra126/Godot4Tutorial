@@ -2,9 +2,19 @@ extends CharacterBody2D
 
 @export var speed: int = 35
 @onready var animations = $AnimationPlayer
-
 @export var maxHealth = 3
 @onready var currentHealth: int = maxHealth
+@export var knockbackPower: int = 500
+@onready var effects = $Effects
+@onready var hurtTimer = $hurtTimer
+
+var isHurt: bool = false
+var enemyCollisions = []
+
+signal healthChanged
+
+func _ready():
+	effects.play("RESET")
 
 func handleInput():
 	var moveDirection = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -30,15 +40,37 @@ func handleCollision():
 
 func _physics_process(delta):
 	handleInput()
-	handleCollision()
 	move_and_slide()
 	updateAnimation()
+	if !isHurt:
+		for enemyArea in enemyCollisions:
+			hurtByEnemy(enemyArea)
+	
+func hurtByEnemy(area):
+	currentHealth -= 1
+	if(currentHealth < 0):
+		currentHealth = maxHealth
+	healthChanged.emit(currentHealth)
+	isHurt = true
+	knockback(area.get_parent().velocity)
+	effects.play("hurtBlink")
+	hurtTimer.start()
+	await hurtTimer.timeout
+	effects.play("RESET")
+	isHurt = false
 
 
 func _on_hitbox_area_entered(area):
 	if area.name == "Hitbox":
-		currentHealth -= 1
-		if(currentHealth < 0):
-			currentHealth = maxHealth
-		print_debug(currentHealth)
+		enemyCollisions.append(area)
+
 		
+func knockback(enemyVelocity):
+	var knockbackDirection = (enemyVelocity-velocity).normalized() * knockbackPower 
+	velocity = knockbackDirection
+	move_and_slide()
+		
+
+
+func _on_hitbox_area_exited(area):
+	enemyCollisions.erase(area)
